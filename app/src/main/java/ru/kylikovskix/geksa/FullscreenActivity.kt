@@ -39,6 +39,7 @@ class FullscreenActivity : AppCompatActivity(), TCPClient.OnMessageListener {
     val RIGTH_BACK_FOOT_IDX     = 5
     val FOOTS_COUNT = 6
 
+    // Сохранениег радусов для ног
     companion object {
         lateinit var preferences: SharedPreferences
             private set
@@ -68,27 +69,32 @@ class FullscreenActivity : AppCompatActivity(), TCPClient.OnMessageListener {
         }
     }
 
+    // Соединение с роботом
     fun connect() {
         disconnect()
         connectTask().execute()
     }
 
+    // Отключение от робота
     fun disconnect() {
         client?.stop()
         client = null
         updateView()
     }
 
+    // Отправить сообщение в ответ
     fun sendRequestInfo() {
         if (isConnected())
             client?.sendMessage("pose;")
     }
 
+    // Проверка наличия подключения
     fun isConnected(): Boolean {
         return true
         return (client != null) && (client?.isConnected() ?: false)
     }
 
+    // Установить отступы для макета
     fun setMargin(view: View, left: Int, top: Int, rigth: Int, bottom: Int) {
         val layoutParams = view.getLayoutParams() as FrameLayout.LayoutParams
         layoutParams.leftMargin = left
@@ -98,6 +104,7 @@ class FullscreenActivity : AppCompatActivity(), TCPClient.OnMessageListener {
         view.setLayoutParams(layoutParams)
     }
 
+    // Обновить Вид на экране
     fun updateView() {
         val display = windowManager.defaultDisplay
         val metricsB = DisplayMetrics()
@@ -139,11 +146,13 @@ class FullscreenActivity : AppCompatActivity(), TCPClient.OnMessageListener {
         btnMode.visibility = if (is_power) View.VISIBLE else View.GONE
     }
 
+    // Добавить всплывающие меню в Вид
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
+    // Обработчик нажатия на элемент в настройках
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.settings_action -> {
@@ -238,7 +247,7 @@ class FullscreenActivity : AppCompatActivity(), TCPClient.OnMessageListener {
                     openIntValueDialog(0, getString(R.string.input_angle_value_text), b.text.toString().toInt(), MIN_ANGLE_VALUE, MAX_ANGLE_VALUE,  {
                         when(a) {
                             0 ->    client?.sendMessage("coxa %d %d;".format(f, it))
-                            1 ->    client?.sendMessage("femora %d %d;".format(f, it))
+                            1 ->    client?.sendMessage("femur %d %d;".format(f, it))
                             else -> client?.sendMessage("tibia %d %d;".format(f, it))
                         }
                 })
@@ -246,6 +255,7 @@ class FullscreenActivity : AppCompatActivity(), TCPClient.OnMessageListener {
 
     }
 
+    // Событие передачи фрагмента другой Activity
     override fun onResume() {
         super.onResume()
         timer = startTimer({
@@ -254,13 +264,15 @@ class FullscreenActivity : AppCompatActivity(), TCPClient.OnMessageListener {
         updateView()
     }
 
+    // Событие уничтожение фрагмента при заверешении жизненного цикла
     override fun onDestroy() {
         client?.stop()
         super.onDestroy()
     }
 
+    // Сообщение об ошибке при подключении
     override fun msgError(message: String) {
-        Toast.makeText(this, "connect erro: " + message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "connect error: " + message, Toast.LENGTH_SHORT).show()
     }
 
     override fun msgReceived(message: String) {

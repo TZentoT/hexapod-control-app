@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.*
 
+// Выводим всплывающий текст
 fun AppCompatActivity.toast(msg:String) {
     Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
 }
@@ -22,6 +23,7 @@ fun AppCompatActivity.toast(resId:Int) {
     Toast.makeText(this, resId, Toast.LENGTH_SHORT).show()
 }
 
+// Открыть диалог и задать параметры
 fun AppCompatActivity.openDialog(title:String, positiveText:String, negativeText:String, onPositiveButtonClick:()->Any, onNegativeButtonClick:()->Any) {
     val quitDialog: AlertDialog.Builder = AlertDialog.Builder(
         this
@@ -42,7 +44,7 @@ fun AppCompatActivity.openDialog(title:String, positiveText:String, negativeText
     quitDialog.show()
 }
 
-// запустить автообновленеи формы
+// запустить автообновление формы
 fun AppCompatActivity.startTimer(functer:(counter:Long)->Any, period:Long = 1000L, _timer: Timer? = null): Timer {
     var _counter = 0L
     val timer = if(_timer == null) Timer() else _timer
@@ -60,7 +62,7 @@ fun AppCompatActivity.startTimer(functer:(counter:Long)->Any, period:Long = 1000
     return timer
 }
 
-// запросить требуемы разрешения
+// запросить требуемое разрешения
 fun AppCompatActivity.checkPermissons(permissons:Array<String>, code:Int):Boolean {
 
     for(permisson in permissons) {
@@ -76,6 +78,7 @@ fun AppCompatActivity.checkPermissons(permissons:Array<String>, code:Int):Boolea
     return true;
 }
 
+// Открыть диалог, задать параметры, добавить обработчики события
 fun Activity.openIntValueDialog(resImage:Int, title: String, value: Int, minValue: Int, maxValue: Int, positiveFunc: (value:Int) -> Any?)    {
     val quitDialog: AlertDialog.Builder = AlertDialog.Builder(this)
     quitDialog.setTitle(title)
