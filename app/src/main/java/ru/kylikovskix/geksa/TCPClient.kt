@@ -37,7 +37,7 @@ class TCPClient(val addr:String, val port:Int, val listener: OnMessageListener) 
      *
      * @param message text entered by client
      */
-    fun sendMessage(message: String) {
+    fun sendMessage(message: String): String {
         val runnable = Runnable {
             if (mBufferOut != null) {
                 Log.d(TAG, "Sending: " + message);
@@ -48,6 +48,8 @@ class TCPClient(val addr:String, val port:Int, val listener: OnMessageListener) 
         }
         val thread = Thread(runnable)
         thread.start()
+
+        return message
     }
 
     /**
