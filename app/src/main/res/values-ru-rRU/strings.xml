@@ -19,6 +19,6 @@
     <string name="ok_text">Ok</string>
     <string name="cancel_text">Отмена</string>
     <string name="current_value_text">Value</string>
-    <string name="input_angle_value_text">Введите значение угола</string>
+    <string name="input_angle_value_text">Введите значение угла</string>
 
 </resources>
